@@ -1,0 +1,133 @@
+3/25   CH 14  오류 처리하기
+
+디버깅 -    전체 소스라인에 breakpoint 를 찍어서 ( 한 라인씩 실행 할수 있음 ) 
+	오류를 찾아내고자 할때 사용 
+
+		         값이 없을경우     버그이므로 오류해결   
+	심각한 오류        Nullpoint Ex , ArrayIndexOut Ex , Arithmetic Ex     
+예   외 -	Error , 	RuntimeException  << UnChecked Exception  
+	( 예외 처리를 하지않아도 컴파일 오류 발생 X)
+	
+	그 외  << Checked Exception ( 반드시 예외 처리를 해야됨, 하지 않으면 
+				자동으로 빨간줄 처리됨 )    
+
+	- 장점 : 코드 내에 정상/비정상적인 로직을 구분 할 수 있음. 
+
+Object > Throwable > Error , Exception 
+
+
+ 	인셉션이 발생 하지 않았을 때
+try {
+  } catch (FileNotFoundException e) {
+	S.O.P ("파일이 없어요"); }	catchblock 은 인셉션이 발생했을때
+
+
+인셉션이 발생하든 안하든 무조건 실행해주는것이 finally { }    (return 해도 실행)
+
+main() { f1() f2() 에서 f2()에 오류나도 main실행하면 f2에 에러가 발생한것을 모를수있음.
+에러가 발생하면 try { } catch { } 하여 처리해주지만 나에게 알려줘야함 그것이 throw 
+
+---> public void f2() throws <  >  실행시 <  > 이 발생할수도 있다라는 식 = try catch안해도 됨 ,  마찬가지로 f2() 에서도 동일하게 코드작성 ,
+           최종적으로 main()에서 try{ f1() } catch (Exception e) 를 사용하여 책임지도록 함
+
+Callstack (실행)
+
+
+다음시간에 단언 , 로깅  + 15장 
+
+
+3/29
+
+단언은 실무에서 잘 안씀	//	 로깅은 무조건 씀 ( 회사마다 규칙이 있음 )
+
+System.out.println();  // sysout + ctrl + space bar
+
+CH 14 끝
+
+CH 15 
+
+제네릭과 컬렉션 ( 어려움 )
+
+제네릭 :: 사용 , 작성 		Generic Class ,       ''      Method
+
+Object 사용하면 다 됨  ,,  오브젝트를 받으면 모든 객체를 다 받음.
+
+ <T> 를 사용 ( T 가 관례 ) 하면  안에서 사용하는 타입을 결정하지 않고  
+ 객체 생성할때 < > 안에 타입을 미리 설정. 클래스를 따로따로선언하는게 아니고
+ 로직은 다 동일하니까 타입만 주자,
+
+4/1
+	
+ArrayList 가장 많이 씀 ( 배열의 정해진 크기를 초과해서 사용자가 원하는 만큼 크기를 늘림
+			
+			                 ↓ <Integer> 생략가능 
+ArrayList<Integer>list = new ArrayList<Integer>( );
+list.add(1);
+
+ArrayList<String>list2 = ''
+ArrayList<Student>list3 = ''             ( 데이터 타입만 다르게 해서 계속 쓸수 있다)
+
+용량을 늘리기 위해 new 를 써서 받으면 기존에 데이터는 누구도 가르키지 않음(사용되지않음) 
+
+미유우 후쿠오카 
+
+
+4/5 컬렉션
+
+자바에서 자료구조를 구현한 클래스  자료들을 집합
+리스트, 스택, 큐, 집합 등이 있다
+
+Collection 을 사용하면 list set의 인터페이스 포함 여러 class 들을 사용할 수 있다.
+가장 위에는 Object 
+
+디자인 패턴( '여러 문제에 대해 이러한 방법으로 해결하는것이 좋다' 라는 방식들을 정의 해놓은 것 )   - mvc factory 등 
+
+list 는 for문 접근 가능  // Queue, Set 은 접근 불가
+
+Map 에도 인터페이스 및 여러 클래스가 있다, 값 자체도 저장할뿐 아니라 키도 저장 ( 찾기 쉬움) , Map을 이용할때 <<키 값을 이용>>
+키 값을 알면 특정 레코드를 식별가능 
+
+
+Set 중복 허용 x , 순서가 없다  , 값만 저장(리스트의 원소 하나하나 찾아야됨)
+
+List 인덱스 순서가 있기에 순서가 유지됨, 같은 값이 저장가능 (중복 허용)
+       값만 저장(리스트의 원소 하나하나 찾아야됨)
+
+Queue 먼저 들어간놈이 먼저 나오는 ( 순서대로 나가는 구조 )
+
+((( 속도 의 차이 )) 
+
+ArrayList	     ( 중간에 삽입,삭제가 발생하면 한칸씩 앞으로 떙겨짐 ) 와는 다르게 
+LinkedList      내부적으로 다름 ( 중간에 삽입,삭제가 쉬움 , 알아서 맞춰줌 ) 
+
+
+4/8	컬렉션
+
+list는 for문 사용  // Queue, Set은 for사용불가 
+         
+list = ArrayList , LinkedList
+      =내부적으로 배열 / 원소가 하나씩 삽입될때마다 새로운 공간을 확보(배열이 아님)
+
+인셉션  - 		// unchecked exception은 버그다
+		// 이런 exception 자체가 발생하지 않게 코딩해라.. 
+
+try {
+} catch (IOEx ~~ {			// IOE 가 되면 밑에 FILENOT은 건너뜀 
+				// 시험 낼수도 ~
+} catch(FileNot
+
+
+1>> 1번방법
+	while(true) {
+			String line = bReader.readLine();
+			if (line == null) break;
+			System.out.println(line);
+			cnt++;
+		} // 마지막 끝이 만나면 null값 반환함 ,, 따라서 null이 나올때 까지 반복하며 출력 ,그후 종료
+
+2>> 2번방법  
+		String line = null;
+		while((line=bReader.readLine()) != null ) {
+			System.out.println(line);
+			cnt++;
+		} // break문 필요없이 끝나면 안해도됨 
